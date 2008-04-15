@@ -55,6 +55,11 @@ public class DateInfo
         return calendar.get(Calendar.HOUR);
     }
 
+    public int getHour24()
+    {
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
+
     public int getMinute()
     {
         return calendar.get(Calendar.MINUTE);

@@ -1,0 +1,6 @@
+Bugs:
+- New files don't get copyright auto added n 7.0.3. when project first opened. 2nd new class does though.
+- $today.hour gives '0' - can't reproducde.
+
+Features:
+- Groovy support (requires GroovyJ plugin).

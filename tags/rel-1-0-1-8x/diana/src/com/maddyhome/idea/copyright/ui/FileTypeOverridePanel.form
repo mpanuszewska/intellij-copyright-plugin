@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.maddyhome.idea.copyright.ui.FileTypeOverridePanel">
+  <grid id="1ed6f" binding="mainComponent" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="0" vgap="0">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="23" y="24" width="263" height="127"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="etched" title="Template Override"/>
+    <children>
+      <component id="a8fbe" class="javax.swing.JRadioButton" binding="rbNoCopyright">
+        <constraints>
+          <xy x="6" y="22" width="102" height="23"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="&amp;No Copyright"/>
+        </properties>
+      </component>
+      <component id="706ca" class="javax.swing.JRadioButton" binding="rbUseTemplate">
+        <constraints>
+          <xy x="6" y="47" width="107" height="23"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Use &amp;Template"/>
+        </properties>
+      </component>
+      <component id="fa1ba" class="javax.swing.JRadioButton" binding="rbUseText">
+        <constraints>
+          <xy x="6" y="72" width="137" height="23"/>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Use Te&amp;mplate Text"/>
+        </properties>
+      </component>
+      <component id="96ed3" class="javax.swing.JRadioButton" binding="rbCustom">
+        <constraints>
+          <xy x="6" y="97" width="99" height="23"/>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="Fully &amp;Custom"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

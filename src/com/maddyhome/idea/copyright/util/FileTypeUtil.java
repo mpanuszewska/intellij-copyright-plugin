@@ -2,7 +2,7 @@ package com.maddyhome.idea.copyright.util;
 
 /*
  * Copyright - Copyright notice updater for IDEA
- * Copyright (C) 2004-2005 Rick Maddy. All Rights Reserved.
+ * Copyright (C) 2004-2008 Rick Maddy. All Rights Reserved.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -21,6 +21,7 @@ package com.maddyhome.idea.copyright.util;
 
 import com.intellij.lang.Commenter;
 import com.intellij.lang.Language;
+import com.intellij.lang.LanguageCommenters;
 import com.intellij.lang.StdLanguages;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.fileTypes.FileType;
@@ -360,7 +361,8 @@ public class FileTypeUtil
     {
         if (fileType instanceof LanguageFileType)
         {
-            return ((LanguageFileType)fileType).getLanguage().getCommenter();
+            //return ((LanguageFileType)fileType).getLanguage().getCommenter();
+            return LanguageCommenters.INSTANCE.forLanguage(((LanguageFileType)fileType).getLanguage());
         }
         // TODO - deal with CustomFileType
 

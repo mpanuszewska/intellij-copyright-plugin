@@ -21,14 +21,14 @@ package com.maddyhome.idea.copyright.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.roots.ContentIterator;
+import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.ReadonlyStatusHandler;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
@@ -52,15 +52,15 @@ public class UpdateCopyrightAction extends AnAction
     {
         Presentation presentation = event.getPresentation();
         DataContext context = event.getDataContext();
-        Project project = (Project)context.getData(DataConstants.PROJECT);
+        Project project = DataKeys.PROJECT.getData(context);
         if (project == null)
         {
             presentation.setEnabled(false);
             return;
         }
 
-        VirtualFile[] files = (VirtualFile[])context.getData(DataConstants.VIRTUAL_FILE_ARRAY);
-        Editor editor = (Editor)context.getData(DataConstants.EDITOR);
+        VirtualFile[] files = DataKeys.VIRTUAL_FILE_ARRAY.getData(context);
+        Editor editor = DataKeys.EDITOR.getData(context);
         if (editor != null)
         {
             PsiFile file = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
@@ -85,10 +85,10 @@ public class UpdateCopyrightAction extends AnAction
             presentation.setEnabled(true);
             return;
         }
-        else if ((files == null || files.length != 1) && context.getData(DataConstants.MODULE_CONTEXT) == null &&
-            context.getData(DataConstants.PROJECT_CONTEXT) == null)
+        else if ((files == null || files.length != 1) && DataKeys.MODULE_CONTEXT.getData(context) == null &&
+            DataKeys.PROJECT_CONTEXT.getData(context) == null)
         {
-            PsiElement elem = (PsiElement)context.getData(DataConstants.PSI_ELEMENT);
+            PsiElement elem = DataKeys.PSI_ELEMENT.getData(context);
             if (elem == null)
             {
                 presentation.setEnabled(false);
@@ -112,12 +112,12 @@ public class UpdateCopyrightAction extends AnAction
     public void actionPerformed(AnActionEvent event)
     {
         DataContext context = event.getDataContext();
-        Project project = (Project)context.getData(DataConstants.PROJECT);
-        Module module = (Module)context.getData(DataConstants.MODULE);
+        Project project = DataKeys.PROJECT.getData(context);
+        Module module = DataKeys.MODULE.getData(context);
         PsiDocumentManager.getInstance(project).commitAllDocuments();
 
-        VirtualFile[] files = (VirtualFile[])context.getData(DataConstants.VIRTUAL_FILE_ARRAY);
-        Editor editor = (Editor)context.getData(DataConstants.EDITOR);
+        VirtualFile[] files = DataKeys.VIRTUAL_FILE_ARRAY.getData(context);
+        Editor editor = DataKeys.EDITOR.getData(context);
 
         PsiFile file = null;
         PsiDirectory dir;
@@ -143,7 +143,7 @@ public class UpdateCopyrightAction extends AnAction
 
                 return;
             }
-            Module modCtx = (Module)context.getData(DataConstants.MODULE_CONTEXT);
+            Module modCtx = DataKeys.MODULE_CONTEXT.getData(context);
             if (modCtx != null)
             {
                 ModuleDlg dlg = new ModuleDlg(project, module);
@@ -158,7 +158,7 @@ public class UpdateCopyrightAction extends AnAction
                 return;
             }
 
-            PsiElement psielement = (PsiElement)context.getData(DataConstants.PSI_ELEMENT);
+            PsiElement psielement = DataKeys.PSI_ELEMENT.getData(context);
             if (psielement == null)
             {
                 return;

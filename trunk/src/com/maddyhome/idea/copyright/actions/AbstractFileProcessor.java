@@ -329,7 +329,7 @@ public abstract class AbstractFileProcessor
     {
         List<PsiFile> pfiles = new ArrayList<PsiFile>();
         findFiles(project, pfiles);
-        String msg = "Project '" + project.getProjectFilePath() + '\'';
+        String msg = "Project '" + project.getPresentableUrl() + '\'';
         handleFiles(msg, pfiles);
     }
 

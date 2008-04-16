@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="com.maddyhome.idea.copyright.ui.ProjectSettingsPanel">
+  <grid id="a4ccc" binding="mainPanel" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="5" left="5" bottom="5" right="5"/>
+    <constraints>
+      <xy x="28" y="19" width="212" height="192"/>
+      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <tabbedpane id="4052b" binding="tabs">
+        <constraints>
+          <xy x="5" y="33" width="202" height="154"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3">
+            <preferred-size width="200" height="200"/>
+          </grid>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </tabbedpane>
+      <component id="5714f" class="javax.swing.JCheckBox" binding="cbEnable">
+        <constraints>
+          <xy x="5" y="5" width="202" height="23"/>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0"/>
+        </constraints>
+        <properties>
+          <text value="&amp;Enable Copyright Notice Plugin"/>
+        </properties>
+      </component>
+    </children>
+  </grid>
+</form>

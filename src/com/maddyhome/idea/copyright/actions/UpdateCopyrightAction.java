@@ -27,6 +27,8 @@ import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.roots.ContentIterator;
 import com.intellij.openapi.vfs.ReadonlyStatusHandler;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiDirectory;
@@ -40,6 +42,9 @@ import com.maddyhome.idea.copyright.ui.RecursionDlg;
 import com.maddyhome.idea.copyright.util.FileTypeUtil;
 import com.maddyhome.idea.copyright.util.FileUtil;
 import com.maddyhome.idea.copyright.util.ModuleUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UpdateCopyrightAction extends AnAction
 {
@@ -187,6 +192,8 @@ public class UpdateCopyrightAction extends AnAction
 
         if (recDlg.isAll())
         {
+            if (!ensureFilesWritable(dir)) return;
+
             (new UpdateCopyrightProcessor(project, module, dir, recDlg.includeSubdirs())).run();
         }
 
@@ -194,5 +201,24 @@ public class UpdateCopyrightAction extends AnAction
         {
             (new UpdateCopyrightProcessor(project, module, file)).run();
         }
+    }
+
+    private boolean ensureFilesWritable(PsiDirectory dir)
+    {
+        final List<VirtualFile> contents = new ArrayList<VirtualFile>();
+
+        ProjectRootManager.getInstance(dir.getProject()).getFileIndex().iterateContentUnderDirectory(dir.getVirtualFile(), new ContentIterator()
+        {
+            public boolean processFile(VirtualFile virtualFile)
+            {
+                contents.add(virtualFile);
+
+                return true;
+            }
+        });
+
+        final VirtualFile[] contentsArray = contents.toArray(new VirtualFile[contents.size()]);
+
+        return !ReadonlyStatusHandler.getInstance(dir.getProject()).ensureFilesWritable(contentsArray).hasReadonlyFiles();
     }
 }

@@ -1,0 +1,157 @@
+<!--
+  - Copyright - Copyright notice updater for IDEA
+  - Copyright (C) 2004-2005 Rick Maddy. All Rights Reserved.
+  -
+  - This program is free software; you can redistribute it and/or
+  - modify it under the terms of the GNU General Public License
+  - as published by the Free Software Foundation; either version 2
+  - of the License, or (at your option) any later version.
+  -
+  - This program is distributed in the hope that it will be useful,
+  - but WITHOUT ANY WARRANTY; without even the implied warranty of
+  - MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  - GNU General Public License for more details.
+  -
+  - You should have received a copy of the GNU General Public License
+  - along with this program; if not, write to the Free Software
+  - Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  -->
+
+<project name="Copyright" default="deploy" basedir=".">
+    <!--
+    External Properties (set in IntelliJ project):
+      idea.home - $APPLICATION_HOME_DIR$
+    -->
+    <property name="src" value="src"/>
+    <property name="resources" value="resources"/>
+    <property name="classes" value="classes"/>
+    <property name="javadoc" value="docs/javadoc"/>
+    <property name="build" value="build"/>
+    <property name="dist" value="dist"/>
+    <!-- Update to your IntelliJ installtion -->
+    <property name="idea.home" value="/Applications/IntelliJ IDEA 7.0.3.app"/>
+    <property name="idea.plugins.path" value="${user.home}/Library/Application Support/IntelliJIDEA70"/>
+
+    <property name="project" value="Copyright"/>
+    <!-- Update this prior to building a new distribution -->
+    <property name="idea-version" value="7.x"/>
+    <property name="version" value="1.0.1"/>
+    <property name="since-build" value="6700"/>
+
+    <path id="build.classpath">
+        <pathelement path="${idea.home}/lib/idea.jar"/>
+        <pathelement path="${idea.home}/lib/openapi.jar"/>
+        <pathelement path="${idea.home}/lib/extensions.jar"/>
+        <pathelement path="${idea.home}/lib/jdom.jar"/>
+        <pathelement path="${idea.home}/lib/velocity.jar"/>
+        <pathelement path="${idea.home}/lib/forms_rt.jar"/>
+        <pathelement path="${idea.home}/lib/annotations.jar"/>
+        <pathelement path="${classes}"/>
+    </path>
+
+    <target name="clean.build">
+        <delete dir="${classes}"/>
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="clean" depends="clean.build" description="Removes all generated files">
+        <delete dir="${javadoc}"/>
+        <delete dir="${project}"/>
+    </target>
+
+    <target name="build" depends="clean.build" description="Compiles all source code and created plugin jar file">
+        <mkdir dir="${classes}"/>
+        <javac destdir="${classes}" debug="on" classpathref="build.classpath">
+            <compilerarg value="-Xlint:unchecked"/>
+            <compilerarg value="-Xlint:deprecation"/>
+            <src path="${src}"/>
+        </javac>
+        <mkdir dir="${classes}/META-INF"/>
+        <copy file="META-INF/plugin.xml" todir="${classes}/META-INF">
+            <filterset>
+                <filter token="NAME" value="${project}"/>
+                <filter token="VERSION" value="${version}"/>
+                <filter token="IDEA-VERSION" value="${idea-version}"/>
+                <filter token="SINCE-BUILD" value="${since-build}"/>
+            </filterset>
+        </copy>
+        <copy file="docs/README.txt" tofile="${classes}/README">
+            <filterset>
+                <filter token="NAME" value="${project}"/>
+                <filter token="VERSION" value="${version}"/>
+                <filter token="IDEA-VERSION" value="${idea-version}"/>
+                <filter token="SINCE-BUILD" value="${since-build}"/>
+            </filterset>
+        </copy>
+        <copy todir="${classes}">
+            <fileset dir="${src}" excludes="**/*.java,**/*.form"/>
+        </copy>
+        <copy todir="${classes}">
+            <fileset dir="${resources}"/>
+        </copy>
+        <mkdir dir="${build}"/>
+        <jar basedir="${classes}" jarfile="${build}/${project}.jar" compress="yes"/>
+    </target>
+
+    <target name="deploy" depends="build" description="Copies plugin to IntelliJ plugin directory">
+        <mkdir dir="${idea.plugins.path}/${project}/lib"/>
+        <copy file="${build}/${project}.jar" todir="${idea.plugins.path}/${project}/lib"/>
+    </target>
+
+    <target name="dist" depends="dist-src, dist-bin" description="Creates the src and bin distribution files"/>
+
+    <target name="dist-bin" depends="clean, build" description="Creates a tar file containing the plugin distribution">
+        <mkdir dir="dist"/>
+        <delete dir="${project}-${version}-${idea-version}"/>
+        <mkdir dir="${project}-${version}-${idea-version}"/>
+        <copy todir="${project}-${version}-${idea-version}">
+            <fileset dir="." includes="license/**"/>
+        </copy>
+        <copy todir="${project}-${version}-${idea-version}/lib">
+            <fileset dir="${build}" includes="*.jar"/>
+        </copy>
+        <copy file="docs/README.txt" tofile="${project}-${version}-${idea-version}/README">
+            <filterset>
+                <filter token="NAME" value="${project}"/>
+                <filter token="VERSION" value="${version}"/>
+                <filter token="IDEA-VERSION" value="${idea-version}"/>
+                <filter token="SINCE-BUILD" value="${since-build}"/>
+            </filterset>
+        </copy>
+        <copy file="docs/CHANGES.txt" tofile="${project}-${version}-${idea-version}/CHANGES">
+            <filterset>
+                <filter token="NAME" value="${project}"/>
+                <filter token="VERSION" value="${version}"/>
+                <filter token="IDEA-VERSION" value="${idea-version}"/>
+                <filter token="SINCE-BUILD" value="${since-build}"/>
+            </filterset>
+        </copy>
+        <copy file="docs/NOTES.txt" tofile="${project}-${version}-${idea-version}/NOTES">
+            <filterset>
+                <filter token="NAME" value="${project}"/>
+                <filter token="VERSION" value="${version}"/>
+                <filter token="IDEA-VERSION" value="${idea-version}"/>
+                <filter token="SINCE-BUILD" value="${since-build}"/>
+            </filterset>
+        </copy>
+        <tar basedir="." destfile="${dist}/${project}-${version}-${idea-version}-bin.tar.gz" compression="gzip" includes="${project}-${version}-${idea-version}/**"/>
+        <copy todir="${project}-${version}-${idea-version}/resources">
+            <fileset dir="${resources}"/>
+        </copy>
+        <move todir="${project}">
+            <fileset dir="${project}-${version}-${idea-version}"/>
+        </move>
+        <zip basedir="." zipfile="${dist}/${project}-${version}-${idea-version}.zip" compress="true" includes="${project}/**"/>
+    </target>
+
+    <target name="dist-src" depends="clean" description="Creates the source tar file">
+        <mkdir dir="dist"/>
+        <tar basedir="." destfile="${dist}/${project}-${version}-${idea-version}-src.tar.gz" excludes="*.iws,dist/**,scratch/**,web/docs/**" compression="gzip"/>
+    </target>
+
+    <target name="javadoc" depends="build" description="Generates Javadoc for all source code">
+        <delete dir="${javadoc}"/>
+        <mkdir dir="${javadoc}"/>
+        <javadoc classpathref="build.classpath" access="protected" destdir="${javadoc}" packagenames="com.*" sourcepath="src" use="true"/>
+    </target>
+</project>

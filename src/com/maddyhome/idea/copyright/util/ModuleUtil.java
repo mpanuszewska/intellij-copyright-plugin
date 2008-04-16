@@ -19,8 +19,8 @@ package com.maddyhome.idea.copyright.util;
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.module.Module;
 import com.maddyhome.idea.copyright.CopyrightModulePlugin;
 import com.maddyhome.idea.copyright.options.Options;
@@ -29,7 +29,7 @@ public class ModuleUtil
 {
     public static boolean isModuleActive(DataContext context)
     {
-        Module module = (Module)context.getData(DataConstants.MODULE);
+        Module module = DataKeys.MODULE.getData(context);
         if (module == null)
         {
             return false;

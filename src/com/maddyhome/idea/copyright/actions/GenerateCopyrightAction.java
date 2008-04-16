@@ -21,8 +21,8 @@ package com.maddyhome.idea.copyright.actions;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.Presentation;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.module.Module;
@@ -38,14 +38,14 @@ public class GenerateCopyrightAction extends AnAction
     {
         Presentation presentation = event.getPresentation();
         DataContext context = event.getDataContext();
-        Project project = (Project)context.getData(DataConstants.PROJECT);
+        Project project = DataKeys.PROJECT.getData(context);
         if (project == null)
         {
             presentation.setEnabled(false);
             return;
         }
 
-        Editor editor = (Editor)context.getData(DataConstants.EDITOR);
+        Editor editor = DataKeys.EDITOR.getData(context);
         if (editor != null)
         {
             PsiFile file = PsiDocumentManager.getInstance(project).getPsiFile(editor.getDocument());
@@ -62,11 +62,11 @@ public class GenerateCopyrightAction extends AnAction
     public void actionPerformed(AnActionEvent event)
     {
         DataContext context = event.getDataContext();
-        Project project = (Project)context.getData(DataConstants.PROJECT);
-        Module module = (Module)context.getData(DataConstants.MODULE);
+        Project project = DataKeys.PROJECT.getData(context);
+        Module module = DataKeys.MODULE.getData(context);
         PsiDocumentManager.getInstance(project).commitAllDocuments();
 
-        Editor editor = (Editor)context.getData(DataConstants.EDITOR);
+        Editor editor = DataKeys.EDITOR.getData(context);
 
         PsiFile file = null;
         if (editor != null)

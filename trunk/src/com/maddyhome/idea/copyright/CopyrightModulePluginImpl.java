@@ -55,6 +55,7 @@ public class CopyrightModulePluginImpl implements CopyrightModulePlugin
         catch (CloneNotSupportedException e)
         {
         }
+        options.setModuleLevel(true);
     }
 
     public void projectOpened()

@@ -1,6 +1,12 @@
 History of changes for @NAME@ for IDEA @IDEA-VERSION@
 
-@VERSION@ from 1.0.0-RC2
+@VERSION@ from 1.0.0
+Bug Fixes
+- Change use of internal variable $TEMPLATE$ with __TEMPLATE__.
+- Don't save copyright template to module files if using project level copyright.
+- Only perform recursive directory update if all files are writable.
+
+1.0.0 from 1.0.0-RC2
 Bug Fixes
 - Reads Java options from all prior versions of the plugin. The text of the
   notice and the file location are restored. All other values used their new

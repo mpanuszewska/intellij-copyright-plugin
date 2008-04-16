@@ -32,26 +32,13 @@
     <change-notes>
         <![CDATA[
 Bug Fixes<br>
-- Reads Java options from all prior versions of the plugin. The text of the
-  notice and the file location are restored. All other values used their new
-  defaults.<br>
-- The ipr and iml files are no longer modified if there are no changes to the
-  copyright settings.<br>
-- Ensure only supported languages appear under the File Types tab of the
-  configuration screen.<br>
-- Fixed internal error when clicking on the Apply button of the settings screen.<br>
 <br>
-New Features<br>
-- There is now a project level setting for disabling the plugin. This defaults
-  to disabled so no copyrights are added to any files by default. This can be
-  turned on in the template project if you would rather have all new projects
-  have the plugin enabled by default.<br>
-- Added mnemonics to the configuration screen.<br>
-- Added back Update Copyright menu item to end of the editor context menu.<br>
-- You can now copy project level settings into a module. Useful if you want to
-  create module specific settings similar to the project settings.<br>
-- You can now import copyright settings from any project or module on the local
-  file system. The settings can be imported at the project or module level.<br>
+Bug Fixes<br>
+- Change use of internal variable $TEMPLATE$ with __TEMPLATE__.<br>
+<br>
+Changes<br>
+- Don't save copyright template to module files if using project level copyright.<br>
+- Only perform recursive directory update if all files are writable.
         ]]>
     </change-notes>
     <idea-version since-build="@SINCE-BUILD@"/>

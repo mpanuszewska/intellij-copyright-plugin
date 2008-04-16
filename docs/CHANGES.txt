@@ -3,6 +3,8 @@ History of changes for @NAME@ for IDEA @IDEA-VERSION@
 @VERSION@ from 1.0.0
 Bug Fixes
 - Change use of internal variable $TEMPLATE$ with __TEMPLATE__.
+
+Changes
 - Don't save copyright template to module files if using project level copyright.
 - Only perform recursive directory update if all files are writable.
 

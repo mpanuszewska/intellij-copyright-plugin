@@ -48,11 +48,22 @@ public class Options implements JDOMExternalizable, Cloneable
         setDefaults();
     }
 
+    public boolean isModuleLevel()
+    {
+        return moduleLevel;
+    }
+
+    public void setModuleLevel(boolean moduleLevel)
+    {
+        this.moduleLevel = moduleLevel;
+    }
+
     public LanguageOptions getOptions(String name)
     {
         String lang = FileTypeUtil.getInstance().getFileTypeNameByName(name);
         LanguageOptions res = options.get(lang);
-        if (res == null)
+        // Support 1.0.0 and earlier use of old template marker in addition to 1.0.1 and later marker name.
+        if (res == null && !LANG_TEMPLATE.equals(name))
         {
             res = LanguageOptionsFactory.createOptions(lang);
         }
@@ -62,7 +73,14 @@ public class Options implements JDOMExternalizable, Cloneable
 
     public LanguageOptions getTemplateOptions()
     {
-        return getOptions(LANG_TEMPLATE);
+        // Support 1.0.0 and earlier use of old template marker in addition to 1.0.1 and later marker name.
+        LanguageOptions res = getOptions(LANG_TEMPLATE);
+        if (res == null)
+        {
+            res = getOptions(LANG_TEMPLATE_OLD);
+        }
+
+        return res;
     }
 
     public void setOptions(String name, LanguageOptions options)
@@ -215,14 +233,17 @@ public class Options implements JDOMExternalizable, Cloneable
         element.addContent(base);
         JDOMExternalizer.write(base, "state", state);
 
-        for (String lang : options.keySet())
+        if (!moduleLevel || state == STATE_MODULE)
         {
-            LanguageOptions opts = options.get(lang);
+            for (String lang : options.keySet())
+            {
+                LanguageOptions opts = options.get(lang);
 
-            Element elem = new Element("LanguageOptions");
-            elem.setAttribute("name", lang);
-            element.addContent(elem);
-            opts.writeExternal(elem);
+                Element elem = new Element("LanguageOptions");
+                elem.setAttribute("name", lang);
+                element.addContent(elem);
+                opts.writeExternal(elem);
+            }
         }
 
         logger.debug("options=" + this);
@@ -289,8 +310,10 @@ public class Options implements JDOMExternalizable, Cloneable
 
     private Map<String, LanguageOptions> options = new TreeMap<String, LanguageOptions>();
     private int state;
+    private boolean moduleLevel = false;
 
-    private static final String LANG_TEMPLATE = "$TEMPLATE$";
+    private static final String LANG_TEMPLATE = "__TEMPLATE__";   // 1.0.1 and later
+    private static final String LANG_TEMPLATE_OLD = "$TEMPLATE$"; // 1.0.0 and earlier
 
     private static Logger logger = Logger.getInstance(Options.class.getName());
 }

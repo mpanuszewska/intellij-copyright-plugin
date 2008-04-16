@@ -21,7 +21,7 @@
 
 <!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
 
-<idea-plugin url="http://www.intellij.org/twiki/bin/view/Main/CopyrightPlugin">
+<idea-plugin url="http://code.google.com/p/intellij-copyright-plugin/">
     <name>@NAME@</name>
     <description>
         Copyright Notice. This plugin is used to ensure files in a project or module have

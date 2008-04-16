@@ -29,14 +29,14 @@
     <property name="build" value="build"/>
     <property name="dist" value="dist"/>
     <!-- Update to your IntelliJ installtion -->
-    <property name="idea.home" value="/Applications/IntelliJ IDEA 7.0.3.app"/>
-    <property name="idea.plugins.path" value="${user.home}/Library/Application Support/IntelliJIDEA70"/>
+    <property name="idea.home" value="/Applications/Diana-8280.app"/>
+    <property name="idea.plugins.path" value="${user.home}/Library/Application Support/IntelliJIDEA80"/>
 
     <property name="project" value="Copyright"/>
     <!-- Update this prior to building a new distribution -->
-    <property name="idea-version" value="7.x"/>
+    <property name="idea-version" value="8.x"/>
     <property name="version" value="1.0.1"/>
-    <property name="since-build" value="6700"/>
+    <property name="since-build" value="8200"/>
 
     <path id="build.classpath">
         <pathelement path="${idea.home}/lib/idea.jar"/>
@@ -46,6 +46,7 @@
         <pathelement path="${idea.home}/lib/velocity.jar"/>
         <pathelement path="${idea.home}/lib/forms_rt.jar"/>
         <pathelement path="${idea.home}/lib/annotations.jar"/>
+        <pathelement path="${idea.home}/lib/util.jar"/>
         <pathelement path="${classes}"/>
     </path>
 

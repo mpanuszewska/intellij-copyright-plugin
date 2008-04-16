@@ -229,7 +229,8 @@ Name                     Type     Comment
 year                     int      The date's year
 month                    int      The date's month (1 - 12)
 day                      int      The date's day of month (1 - 31)
-hour                     int      The date's hour (0 - 23)
+hour                     int      The date's hour (0 - 11)
+hour24                   int      The date's hour (0 - 23)
 minute                   int      The date's minute of the hour (0 - 59)
 second                   int      The date's second of the minute (0 - 59)
 
